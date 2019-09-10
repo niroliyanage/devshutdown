@@ -1,0 +1,46 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  Cost Saver
+
+Globals:
+  Function:
+    Timeout: 30
+    Environment: # More info about Env Vars: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#environment-object
+
+Resources:
+  CostSaver:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: bin/costsaver.zip
+      FunctionName: CostSaver
+      Handler: costsaver.costsaver_handler
+      Runtime: python3.6
+      MemorySize: 128
+      Policies:
+         - AWSLambdaExecute # Managed Policy
+         - Version: '2012-10-17' # Policy Document
+           Statement:
+             - Effect: Allow
+               Action:
+                 - ec2:StartInstances
+                 - ec2:StopInstances
+               Resource: '*'
+               Condition:
+                 StringEquals:
+                   ec2:ResourceTag/dev: 'true'
+             - Effect: Allow
+               Action:
+                 - ec2:Describe*
+               Resource: '*'
+      Events:
+        TurnitOff:
+          Type: Schedule
+          Properties:
+            Schedule: cron(0 7 ? * MON-FRI *)
+            Input: "{\"action\":\"stop\"}"
+        TurnitOn:
+          Type: Schedule
+          Properties:
+            Schedule: cron(0 23 ? * MON-FRI *)
+            Input: "{\"action\":\"start\"}"

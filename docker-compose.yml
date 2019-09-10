@@ -1,0 +1,32 @@
+version: '2'
+services:
+  # app:
+  #   build: .
+  #   working_dir: /app
+  #   volumes:
+  #     - .:/app
+  localstack:
+    image: localstack/localstack
+    expose:
+      - "4568"
+      - "4572"
+    ports:
+      - "4568:4568"
+      - "4597:4597"
+      - "4567:4567"
+      - "4574:4574"
+      - "4572:4572"
+      - "8080:8080"
+    environment:
+      - SERVICES=lambda,ec2,s3,cloudwatch,sts
+      - DEBUG=true
+      - DATA_DIR=/tmp/localstack/data
+      - PORT_WEB_UI=8080
+      - AWS_CBOR_DISABLE=true
+      - LAMBDA_EXECUTOR=docker
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - USE_SSL=false
+      - AWS_DEFAULT_REGION=ap-southeast-2
+    volumes:
+      - './.localstack:/tmp/localstack'
+      - "/var/run/docker.sock:/var/run/docker.sock"
