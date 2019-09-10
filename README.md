@@ -19,7 +19,7 @@ Running the following script will package the template resources and deploy them
 ```
 ## Localised Testing
 
-The function can be tested using the `sam local` offering by sam
+The function can be tested using  `sam local`
 
 Executing the following will create a  mock endpoint to test the function against
 
