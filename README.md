@@ -3,7 +3,7 @@
 The Solution will be using the following services :-
  - SAM --> To deploy all related resources to execute the lambda , This will include the function itself, execution roles/policies, Schedule Triggers to run the script based on a CRON expression
 
-Deployment of the SAM template
+## Deployment of the SAM template
 
 Load AWS access into current terminal session
 
@@ -17,7 +17,7 @@ Running the following script will package the template resources and deploy them
 ./deploy.sh
 
 ```
-Localised Testing
+## Localised Testing
 
 The function can be tested using the `sam local` offering by sam
 
@@ -34,7 +34,8 @@ aws lambda invoke --function-name "CostSaver" --endpoint-url "http://127.0.0.1:3
 
 ```
 
-Improvements
+## Improvements
+
 The Alternative way of testing the lambda function against is the use of localstack. Most of the AWS service offerings are available
 
 Configure aws profile override
@@ -52,4 +53,4 @@ Bring up local localstack
 docker-compose up -d
 ```
 
-using `awslocal` we can now mock most of the AWS offerings . once we have the  infrastructure mock'd and ready the exact same procedure can be used to create the function and related resources for testing 
+using `awslocal` we can now mock most of the AWS offerings . once we have the  infrastructure mock'd and ready the exact same procedure can be used to create the function and related resources for testing
